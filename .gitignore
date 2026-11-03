@@ -1,0 +1,5 @@
+data/
+.env
+analyse/
+.venv
+logs/
