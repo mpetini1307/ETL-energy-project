@@ -22,14 +22,9 @@ The code is published to showcase the architecture and the technical choices.
 
 ## Goal
 
-Bring together data that is usually scattered across several sources into a single model, in order to answer questions such as:
+Bring together data that is usually scattered across several sources into a single model.
 
-- What is each country's electricity generation mix, and how much of it is renewable?
-- Which countries import or export electricity and gas, and with whom?
-- How do consumption, generation and cross-border exchanges evolve over time?
-- How do these figures relate to population, CO₂ emissions or climate (degree days)?
-
-## 📡 Data sources
+## Data sources
 
 | Source | Data | Frequency |
 |---|---|---|
@@ -39,41 +34,11 @@ Bring together data that is usually scattered across several sources into a sing
 | [Eurostat](https://ec.europa.eu/eurostat) | Population, median income, CO₂ emissions, heating and cooling degree days | Yearly |
 | Country reference | Country codes, names, coordinates (latitude / longitude) | Static |
 
-## 🏗️ Architecture
+## Architecture
+
+As shown on the image below, the Medallion Architecture has been used for this project. In a nutshell, data are extracted from the sources' REST APIs, ingested into a bronze database, transformed and cleaned in a silver database, and loaded as a dimensional model in a gold database, ready for analysis.
 
 ![Architecture](images/architecture.jpg)
-```
-  APIs (ENTSO-E, ENTSOG, AGSI, Eurostat)
-              │
-              ▼  Python (requests, pandas, Polars)
-     CSV / Parquet  (data/raw)
-              │
-              ▼  BULK INSERT
-  ┌────────────────────────┐
-  │  EnergyBronze          │  Raw data, as received
-  └────────────────────────┘
-              │  SQL (SELECT INTO)
-              ▼
-  ┌────────────────────────┐
-  │  EnergySilver          │  Typed, cleaned, deduplicated, aggregated per day
-  └────────────────────────┘
-              │  SQL views
-              ▼
-  ┌────────────────────────┐
-  │  EnergyGold            │  Star schema (dim / fact schemas)
-  └────────────────────────┘
-              │
-              ▼
-          Power BI  (Azure Maps, charts)
-
-  Orchestration: Apache Airflow 3 (Docker, LocalExecutor)
-```
-
-### Layers
-
-- **Bronze**: raw copy of the extracted files, loaded with `BULK INSERT`. No transformation, everything stored as text.
-- **Silver**: type conversion (`TRY_CAST`), handling of empty values, deduplication (`ROW_NUMBER`), unit conversion (kWh → MWh) and aggregation to a daily grain. Tables are fully rebuilt on every run (`DROP` + `SELECT INTO`).
-- **Gold**: **views only** on top of silver, organised into dimensions and facts. No data is copied, so gold is always up to date as soon as silver is.
 
 ### Stack
 
