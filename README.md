@@ -41,7 +41,7 @@ Bring together data that is usually scattered across several sources into a sing
 
 ## 🏗️ Architecture
 
-![Architecture](images/architecture.png)
+![Architecture](images/architecture.jpg)
 ```
   APIs (ENTSO-E, ENTSOG, AGSI, Eurostat)
               │
