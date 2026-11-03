@@ -2,7 +2,7 @@
 
 A data engineering pipeline that collects, cleans and models public European energy data (electricity and gas), from API extraction all the way to Power BI dashboards.
 
-Built as the final project of the **Data Engineer** program at Bruxelles Formation (BStorm), 2026.
+Built as the final project of the **Data Engineer** program at Bruxelles Formation.
 
 ---
 
