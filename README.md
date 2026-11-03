@@ -10,6 +10,7 @@ Built as the final project of the **Data Engineer** program at Bruxelles Formati
 
 This project was developed and tested on a specific local setup (Windows, SQL Server Express, Airflow in Docker). It **cannot be run** on another machine.
 The code is published to showcase the architecture and the technical choices.
+
 ---
 
 ## 🎯 Goal
