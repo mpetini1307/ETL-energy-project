@@ -1,4 +1,4 @@
-# ⚡ TFF – European Energy Data Pipeline
+# European Energy Data Pipeline
 
 A data engineering pipeline that collects, cleans and models public European energy data (electricity and gas), from API extraction all the way to Power BI dashboards.
 
@@ -6,17 +6,10 @@ Built as the final project of the **Data Engineer** program at Bruxelles Formati
 
 ---
 
-## ⚠️ Reproducibility
+##  Reproducibility
 
-This project was developed and tested on a specific local setup (Windows, SQL Server Express, Airflow in Docker). It **cannot be run as-is** on another machine without some adaptation:
-
-- the ingestion scripts use absolute paths (`C:\Users\PC\Documents\Projets\TFF\data\...`);
-- SQL Server Express must be installed locally, with the `EnergyBronze`, `EnergySilver` and `EnergyGold` databases created;
-- the connection between Airflow (Docker) and SQL Server (Windows) depends on the local network configuration;
-- an ENTSO-E API token is required.
-
+This project was developed and tested on a specific local setup (Windows, SQL Server Express, Airflow in Docker). It **cannot be run** on another machine.
 The code is published to showcase the architecture and the technical choices.
-
 ---
 
 ## 🎯 Goal
