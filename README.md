@@ -20,7 +20,7 @@ The code is published to showcase the architecture and the technical choices.
 
 
 
-## 🎯 Goal
+## Goal
 
 Bring together data that is usually scattered across several sources into a single model, in order to answer questions such as:
 
@@ -41,7 +41,7 @@ Bring together data that is usually scattered across several sources into a sing
 
 ## 🏗️ Architecture
 
-![Architecture](docs/images/architecture.png)
+![Architecture](images/architecture.png)
 ```
   APIs (ENTSO-E, ENTSOG, AGSI, Eurostat)
               │
