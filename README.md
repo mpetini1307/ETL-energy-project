@@ -47,31 +47,27 @@ As shown on the image below, the Medallion Architecture has been used for this p
 | Orchestration | Apache Airflow 3 (Docker Compose, LocalExecutor) |
 | Extraction | Python, requests, pandas, Polars |
 | Storage and transformation | SQL Server Express 2025 (T-SQL) |
-| Visualisation | Power BI, Azure Maps |
+| Visualisation | Power BI |
 
-## 📂 Project structure
+## Project structure
 
 ```
-TFF/
-├── README.md
-├── docker-compose.yaml
-├── dags/
+Project/
+|──
+|── config/                      # Config files for Airflow
+|── docker-compose.yaml          # Configuration and organization of Docker 
+|── dags/
 │   ├── historical_dag.py        # Full historical load
 │   ├── daily_dag.py             # Daily update
-│   └── pipeline/
+│   └── pipeline/                # All the scripts and functions that are called in the dags
 │       ├── historical/
-│       │   ├── extract/         # One module per source (entsoe, entsog, agsi, eurostat…)
-│       │   └── compact/         # CSV → Parquet conversion (Polars)
-│       └── ...
-├── sql/
-│   ├── bronze/                  # Table creation and BULK INSERT
-│   ├── silver/                  # Cleaning and typing
-│   └── gold/                    # dim / fact views
-├── powerbi/                     # Power BI report
-└── data/                        # Not versioned (see .gitignore)
+│       └── daily/
+|── images/                      # Images
+|── README.md
+|── docker-compose.yaml          # Configuration and organization of Docker 
 ```
 
-## 🔄 Airflow pipelines
+## Airflow pipelines
 
 ### Historical DAG
 
