@@ -1,3 +1,11 @@
+![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)
+![Apache Airflow](https://img.shields.io/badge/Apache%20Airflow-017CEE?logo=apacheairflow&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
+![pandas](https://img.shields.io/badge/pandas-150458?logo=pandas&logoColor=white)
+![Polars](https://img.shields.io/badge/Polars-CD792C?logo=polars&logoColor=white)
+![SQL Server](https://img.shields.io/badge/SQL%20Server-CC2927)
+![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?logoColor=black)
+
 # European Energy Data Pipeline
 
 A data engineering pipeline that collects, cleans and models public European energy data (electricity and gas), from API extraction all the way to Power BI dashboards.
