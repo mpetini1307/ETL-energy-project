@@ -19,9 +19,6 @@ This project was developed and tested on a specific local setup (Windows, SQL Se
 The code is published to showcase the architecture and the technical choices.
 
 
-
-## Goal
-
 ## Goal
 
 Bring together energy data (gas and electricity) into a single model.
