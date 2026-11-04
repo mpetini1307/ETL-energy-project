@@ -59,7 +59,6 @@ At the start, more than 200 million rows were extracted, for a total size of 30 
 Project/
 |──
 |── config/                      # Config files for Airflow
-|── docker-compose.yaml          # Configuration and organization of Docker 
 |── dags/
 │   ├── historical_dag.py        # Full historical load
 │   ├── daily_dag.py             # Daily update
@@ -68,6 +67,7 @@ Project/
 │       └── daily/
 |── images/                      # Images
 |── README.md
+|── docker-compose.yaml          # Configuration and organization of Docker 
 ```
 
 ## Airflow pipelines
