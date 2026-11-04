@@ -70,28 +70,38 @@ Project/
 
 ## Airflow pipelines
 
+Two pipelines were built. The first one is the **initial load**, which extracts all the historical datas for all the sources. The second one is the **incremental load** that runs every morning to download all the new and updated data. 
+
 ### Historical DAG
 
-Loads the full period since 2021. Tasks are grouped into TaskGroups:
 
 ```
-extract  >>  compact  >>  setupDB  >>  ingest  >>  silver
+extract  >>  compact  >>  setupDB  >>  ingest  >>  transform >> load
 ```
 
-- **extract**: API downloads, one file per month and per source. Files that already exist are skipped, so the DAG can be restarted after a failure without downloading everything again.
-- **compact**: converts the CSV files to Parquet.
-- **setupDB**: creates the databases and the bronze tables.
+- **extract**: API downloads, one file per month and per source. (+5 000 files)
+- **compact**: compacts all CSV files of each source into a single file to facilitate ingestion in a SQL database.
+- **setupDB**: creates the databases, the bronze and gold tables.
 - **ingest**: `BULK INSERT` into bronze.
-- **silver**: runs the silver scripts **sequentially** (demo → gas → elec → env → date). Running them in parallel caused deadlocks on the same database.
+- **transform**: transforms and cleans the data (ex: normalized time period in daily).
+- **load** : loads all the data in the Data Warehouse.
 
 ### Daily DAG
 
-- Scheduled `@daily`, without backfilling (`catchup=False`).
-- Extracts a **rolling window** of the last few days rather than just yesterday, to pick up data that grid operators publish late or correct afterwards.
-- Deletes that same window from bronze before reloading it, so re-running the DAG never creates duplicates.
-- Fully rebuilds silver. Gold is made of views, so there is nothing to recompute.
+```
+extract  >>  compact  >> ingest >> merge >> load >> update_watermark
+```
+- **extract**: API downloads, one file per month and per source. (+1 000 files)
+- **compact**: compacts all CSV files of each source into a single file to facilitate ingestion in a SQL database.
+- **ingest**: `BULK INSERT` into a new database called newBronze.
+- **merge** : upsert the newBronze in the silver. Check if the row exists, if it exists : update the row, if not : add it.
+- **load** : deletes the gold layer, recreates if and loads all the data in the Data Warehouse.
+- **update_watermark** : keeps a mark when the update was run and what day was downloaded, so the next run knows where to start.
 
-## ⭐ Gold model
+
+## Gold model
+
+![Gold model (simplified)](images/DWH.jpg)
 
 ### Dimensions
 
@@ -114,7 +124,7 @@ extract  >>  compact  >>  setupDB  >>  ingest  >>  silver
 
 The model uses **natural keys** (date, country code, production type) rather than surrogate IDs: it is easier to read, and views do not need generated keys.
 
-## 🔍 Data quality
+## Challenges
 
 ### Gas flows are declared twice
 
