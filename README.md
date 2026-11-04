@@ -32,7 +32,7 @@ Bring together data that is usually scattered across several sources into a sing
 | [ENTSOG Transparency Platform](https://transparency.entsog.eu/) | Physical gas flows at interconnection points, point and operator reference data | Hourly / daily |
 | [AGSI+ (GIE)](https://agsi.gie.eu/) | Gas storage per country | Daily |
 | [Eurostat](https://ec.europa.eu/eurostat) | Population, median income, CO₂ emissions, heating and cooling degree days | Yearly |
-| Country reference | Country codes, names, coordinates (latitude / longitude) | Static |
+| [Country reference(https://restcountries.com)] | Country codes, names, coordinates (latitude / longitude) | Static |
 
 ## Architecture
 
