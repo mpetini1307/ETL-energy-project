@@ -109,6 +109,9 @@ The gold layer is a **galaxy schema**. All fact tables are linked through the Da
 
 ## Visualisations
 
+After the whole pipeline finished. This is the kind of visualisations that can be created with powerBI
+
+![Production](images/production_powerbi.jpg)
 
 
 **Mathias Petini** – [GitHub](https://github.com/mpetini1307)
