@@ -110,7 +110,7 @@ The gold layer is a **galaxy schema**. All fact tables are linked through the Da
 
 ## Visualisations
 
-One the pipeline has run, the DWH can be explored in powerBI. Here is an example.
+Once the pipeline has run, the DWH can be explored in powerBI. Here is an example.
 
 The upper chart shows the total energy production (MWh) in Belgium in 2025, which is entirely electricity. The lower chart shows the installed capacity (MW): solar is the largest installed capacity in Belgium, with a total of 10.7 GW. The slicers on the left filter both charts.
 At the left can be shown all the filter to display the specific graph wanted. 
