@@ -22,17 +22,22 @@ The code is published to showcase the architecture and the technical choices.
 
 ## Goal
 
-Bring together data that is usually scattered across several sources into a single model.
+## Goal
+
+Bring together energy data (gas and electricity) into a single model.
+Additional data such as population, median income, GHG emissions and degree days was also included. 
+
+In this project, this data was not analysed but only displayed. It was added to build a richer and more complex data model.
 
 ## Data sources
 
 | Source | Data | Frequency |
 |---|---|---|
-| [ENTSO-E Transparency Platform](https://transparency.entsoe.eu/) | Electricity generation per type, load, installed capacity, cross-border physical flows | Hourly / 15 min |
+| [ENTSO-E Transparency Platform](https://transparency.entsoe.eu/) | Electricity generation per type, load, installed capacity, physical flows | Hourly / 15 min |
 | [ENTSOG Transparency Platform](https://transparency.entsog.eu/) | Physical gas flows at interconnection points, point and operator reference data | Hourly / daily |
 | [AGSI+ (GIE)](https://agsi.gie.eu/) | Gas storage per country | Daily |
-| [Eurostat](https://ec.europa.eu/eurostat) | Population, median income, CO₂ emissions, heating and cooling degree days | Yearly |
-| [Country reference](https://restcountries.com) | Country codes, names, coordinates (latitude / longitude) | Static |
+| [Eurostat](https://ec.europa.eu/eurostat) | Population, median income, gas emissions, heating and cooling degree days | Yearly |
+| [Country reference](https://restcountries.com) | Country codes, names, coordinates (latitude, longitude) | Static |
 
 ## Architecture
 
@@ -40,7 +45,7 @@ As shown on the image below, the Medallion Architecture has been used for this p
 
 ![Architecture](images/architecture.jpg)
 
-At the start, more than 200 million rows were extracted, for a total size of 30 Go. After transformation, only 2.4 millions rows remained, because of the change in granularity. The lowest frequency of gas and electricity data retrieved was daily, so all other datas (15min and hourly) was aggregated to daily.
+At the start, more than 200 million rows were extracted, for a total size of 30 GB. After transformation, only 2.4 millions rows remained, because of the change in granularity. The lowest frequency of gas and electricity data retrieved was daily, so all other datas (15min and hourly) was aggregated to daily.
 
 ### Stack
 
@@ -66,7 +71,6 @@ Project/
 │       └── daily/
 |── images/                      # Images
 |── README.md
-|── docker-compose.yaml          # Configuration and organization of Docker 
 ```
 
 ## Airflow pipelines
@@ -96,23 +100,22 @@ extract  >>  compact  >> ingest >> merge >> load >> update_watermark
 - **compact**: compacts all CSV files of each source into a single file to facilitate ingestion in a SQL database.
 - **ingest**: `BULK INSERT` into a new database called newBronze.
 - **merge** : upsert the newBronze in the silver. Check if the row exists, if it exists : update the row, if not : add it.
-- **load** : deletes the gold layer, recreates if and loads all the data in the Data Warehouse.
+- **load** : deletes the gold layer, recreates it and loads all the data in the Data Warehouse.
 - **update_watermark** : keeps a mark when the update was run and what day was downloaded, so the next run knows where to start.
 
 
 ## Gold model
 
-Here is an extremely schematic view of the Data Warehouse to highlight the principle tables, the full model is shown at the end of the README. 
+Here is an extremely schematic view of the Data Warehouse to highlight the main tables, the full model is shown at the end of the README. 
 The gold layer is a **galaxy schema**. All fact tables are linked through the Date and the Country
 
 ![Gold model (simplified)](images/DWH.jpg)
 
 ## Visualisations
 
-After the whole pipeline finished. This is the kind of visualisations that can be created with powerBI.
+One the pipeline has run, the DWH can be explored in powerBI. Here is an example.
 
-The upper graph shows the total production of energy (MWh) in Belgium in 2025. All the energy produced is electricity. 
-The lower graph displays the capacity installed (MW). The first capacity in Belgium was solar with a total of 10.7 GW installed.
+The upper chart shows the total energy production (MWh) in Belgium in 2025, which is entirely electricity. The lower chart shows the installed capacity (MW): solar is the largest installed capacity in Belgium, with a total of 10.7 GW. The slicers on the left filter both charts.
 At the left can be shown all the filter to display the specific graph wanted. 
 
 ![Production](images/production_powerbi.jpg)
@@ -126,10 +129,6 @@ As this problem occured very often, all the data were kept but makes the analysi
 
 ![Data quality](images/data_quality.jpg)
 
-
-
-**Mathias Petini** – [GitHub](https://github.com/mpetini1307)
-
 ## Appendix 
 Full DWH from the model view of PowerBI
-![Gold model (simplified)](images/complex_DWH.jpg)
+![Gold model (complex)](images/complex_DWH.jpg)
