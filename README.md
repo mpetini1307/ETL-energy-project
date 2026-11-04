@@ -40,6 +40,7 @@ As shown on the image below, the Medallion Architecture has been used for this p
 
 ![Architecture](images/architecture.jpg)
 
+At the start, more than 200 million rows were extracted, for a total size of 30 Go. After transformation, only 2.4 millions rows remained, because of the change in granularity. The lowest frequency of gas and electricity data retrieved was daily, so all other datas (15min and hourly) was aggregated to daily.
 ### Stack
 
 | Role | Tool |
