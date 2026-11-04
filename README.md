@@ -109,7 +109,11 @@ The gold layer is a **galaxy schema**. All fact tables are linked through the Da
 
 ## Visualisations
 
-After the whole pipeline finished. This is the kind of visualisations that can be created with powerBI
+After the whole pipeline finished. This is the kind of visualisations that can be created with powerBI.
+
+The upper graph shows the total production of energy (MWh) in Belgium in 2025. All the energy produced is electricity. 
+The lower graph displays the capacity installed (MW). The first capacity in Belgium was solar with a total of 10.7 GW installed.
+At the left can be shown all the filter to display the specific graph wanted. 
 
 ![Production](images/production_powerbi.jpg)
 
