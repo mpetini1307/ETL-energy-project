@@ -119,9 +119,13 @@ At the left can be shown all the filter to display the specific graph wanted.
 
 ## Data Quality 
 
-On ENTSOG (gas data), every gas flow is reported by both countries: the exporting country declares an exit and the importing country declares an entry. But sometimes, both declarations are not the same
+On ENTSOG (gas data), every gas flow is reported by both countries: the exporting country declares an exit and the importing country declares an entry. But sometimes, both declarations are not the same.
+On the image below, two rows was taken showing the amount of gas exported from Belgium to France. Belgium declared an amount of 461 (GWh) exported and France an amount of 205 (GWh) imported, which gives a difference of 55.6%. The second shows the same with a difference of 25%.
 
-For example, for France → Belgium in January 2024, both declarations agree within about 0.5% when both sides published complete data. The large gaps come from incomplete days (missing hours on one side), and hourly and daily values published for the same point do not always match: these are inconsistencies in the source data, not in the pipeline
+As this problem occured very often, all the data were kept but makes the analysis not reliable.
+
+![Data quality](images/data_quality.jpg)
+
 
 
 **Mathias Petini** – [GitHub](https://github.com/mpetini1307)
