@@ -117,6 +117,12 @@ At the left can be shown all the filter to display the specific graph wanted.
 
 ![Production](images/production_powerbi.jpg)
 
+## Data Quality 
+
+On ENTSOG (gas data), every gas flow is reported by both countries: the exporting country declares an exit and the importing country declares an entry. But sometimes, both declarations are not the same
+
+For example, for France → Belgium in January 2024, both declarations agree within about 0.5% when both sides published complete data. The large gaps come from incomplete days (missing hours on one side), and hourly and daily values published for the same point do not always match: these are inconsistencies in the source data, not in the pipeline
+
 
 **Mathias Petini** – [GitHub](https://github.com/mpetini1307)
 
