@@ -103,45 +103,13 @@ extract  >>  compact  >> ingest >> merge >> load >> update_watermark
 ## Gold model
 
 Here is an extremely schematic view of the Data Warehouse to highlight the principle tables, the full model is shown at the end of the README. 
-The gold layer is a **galaxy schema**. All fact tables are linked through the date and the Country
+The gold layer is a **galaxy schema**. All fact tables are linked through the Date and the Country
 
 ![Gold model (simplified)](images/DWH.jpg)
 
-## Challenges
+## Visualisations
 
-### Gas flows are declared twice
 
-On ENTSOG, every cross-border flow is reported **by both transmission system operators**: the exporting country reports an *exit* and the importing country reports an *entry*. Both declarations are deliberately kept in `fact.gas_flow_daily`:
-
-| date | export_country | import_country | value_declared_by_exporter | value_declared_by_importer |
-|---|---|---|---|---|
-
-Keeping both makes it possible to **measure the gap** between the declarations instead of hiding it.
-
-### Example: France → Belgium, January 2024
-
-- When both sides published complete data, the values agree within about 0.5%.
-- The large gaps correspond to **incomplete days**: missing hours on one side, notably on some days on the GRTgaz side.
-- Hourly and daily values published for the same point do not always match each other: this is an inconsistency in the source data, not in the pipeline.
-
-### Other issues handled
-
-- **Duplicate versions**: the same period can be published as *Provisional* and later as *Confirmed*. Silver keeps a single version (*Confirmed* first, then the most recent).
-- **Domestic points**: transmission points between operators of the same country (e.g. DE–DE) are not international exchanges and are excluded.
-- **Non-EU neighbours**: for Russia, Norway, Turkey or North Africa, only the European side reports the flow.
-- **Non-cross-border points**: final consumption, storage, production, distribution and LNG terminals are kept separate from interconnections.
-- **Validity periods**: the ENTSOG point reference data changes over time. Joins take the validity dates into account, and an empty validity date is treated as "always valid".
-
-## 🚧 Limitations and possible improvements
-
-- **Gas day**: gas is aggregated per UTC calendar day, whereas ENTSOG uses a gas day (6 am – 6 am, Brussels time). Daily totals can therefore differ slightly from those on the ENTSOG website.
-- **Mixed gas data**: some values come from hourly series, others from daily series. A fully daily re-extraction would simplify the model.
-- **LNG and storage**: extracted but not yet included in the gold model.
-- **Reproducibility**: run SQL Server in a Docker container, parameterise the paths (environment variables) and add a database creation script.
-- **Incremental loading**: silver is fully rebuilt on every run. This is fast at the current volume but would not scale.
-- **Tests**: add automated checks (duplicates, missing values, gaps between mirror declarations).
-
-## 👤 Author
 
 **Mathias Petini** – [GitHub](https://github.com/mpetini1307)
 
