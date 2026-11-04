@@ -41,6 +41,7 @@ As shown on the image below, the Medallion Architecture has been used for this p
 ![Architecture](images/architecture.jpg)
 
 At the start, more than 200 million rows were extracted, for a total size of 30 Go. After transformation, only 2.4 millions rows remained, because of the change in granularity. The lowest frequency of gas and electricity data retrieved was daily, so all other datas (15min and hourly) was aggregated to daily.
+
 ### Stack
 
 | Role | Tool |
@@ -101,29 +102,10 @@ extract  >>  compact  >> ingest >> merge >> load >> update_watermark
 
 ## Gold model
 
-Here is an extremely schematic view of the Data Warehouse, the full model is shown at the end of the README. 
+Here is an extremely schematic view of the Data Warehouse to highlight the principle tables, the full model is shown at the end of the README. 
+The gold layer is a **galaxy schema**. All fact tables are linked through the date and the Country
+
 ![Gold model (simplified)](images/DWH.jpg)
-
-### Dimensions
-
-| View | Content |
-|---|---|
-| `dim.date` | Calendar (day, month, year…) |
-| `dim.country` | Country, name, latitude / longitude (for Azure Maps) |
-| `dim.production_type` | Production types, with renewable / low-carbon flags |
-
-### Facts
-
-| View | Grain | Content |
-|---|---|---|
-| `fact.electricity_generation_daily` | day × country × type | Electricity generation (MWh) |
-| `fact.electricity_load_daily` | day × country | Electricity load (MWh) |
-| `fact.electricity_flow_daily` | day × exporting country × importing country | Physical electricity flows (MWh) |
-| `fact.gas_flow_daily` | day × exporting country × importing country | Gas flow as declared by each side (MWh) |
-| `fact.installed_capacity_year` | year × country × type | Installed capacity (MW) |
-| `fact.country_year` | year × country | Population, CO₂ emissions, degree days |
-
-The model uses **natural keys** (date, country code, production type) rather than surrogate IDs: it is easier to read, and views do not need generated keys.
 
 ## Challenges
 
