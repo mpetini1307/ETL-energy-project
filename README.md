@@ -101,6 +101,7 @@ extract  >>  compact  >> ingest >> merge >> load >> update_watermark
 
 ## Gold model
 
+Here is an extremely schematic view of the Data Warehouse, the full model is shown at the end of the README. 
 ![Gold model (simplified)](images/DWH.jpg)
 
 ### Dimensions
@@ -161,3 +162,7 @@ Keeping both makes it possible to **measure the gap** between the declarations i
 ## 👤 Author
 
 **Mathias Petini** – [GitHub](https://github.com/mpetini1307)
+
+## Appendix 
+Full DWH from the model view of PowerBI
+![Gold model (simplified)](images/complex_DWH.jpg)
